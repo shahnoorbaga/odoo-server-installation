@@ -5,6 +5,7 @@ sudo apt-get upgrade -y
 sudo adduser --system --group odoo
 sudo passwd odoo --delete
 sudo adduser odoo sudo 
+sudo usermod --shell /bin/bash odoo
 sudo apt-get install -y python3-pip
 sudo apt-get install -y python-dev python3-dev libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev build-essential libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev
 sudo apt-get install -y npm
@@ -12,11 +13,13 @@ sudo ln -s /usr/bin/nodejs /usr/bin/node
 sudo npm install -g less less-plugin-clean-css
 sudo apt-get install -y node-less
 cd /opt
-sudo wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
-sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
-sudo apt install -y fontconfig
-sudo apt install -y xfonts-75dpi
-sudo apt --fix-broken install -y
+sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
+#sudo wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
+#sudo dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb
+#sudo apt install -y fontconfig
+#sudo apt install -y xfonts-75dpi
+#sudo apt --fix-broken install -y
 #dpkg -l wkhtmltopdf
 #\q
 #dpkg -l wkhtmltox
