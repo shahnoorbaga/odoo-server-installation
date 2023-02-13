@@ -1,19 +1,14 @@
 #!/bin/bash
 sudo apt-get update
 sudo apt-get upgrade -y
-#sudo adduser --system --home=/opt/odoo --group odoo
 sudo adduser --system --group odoo
 sudo passwd odoo --delete
 sudo adduser odoo sudo 
 sudo usermod --shell /bin/bash odoo
-#sudo apt-get install -y python3-pip
-#sudo apt-get install -y python-dev python3-dev libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev build-essential libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev
-#sudo apt-get install -y git python3 python3-pip build-essential wget python3-dev python3-venv python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools node-less libjpeg-dev gdebi -y
-#sudo apt-get install -y libpq-dev python-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libffi-dev
-#sudo apt-get install -y git=1:2.17.1-1ubuntu0.9 python3-pip=9.0.1-2.3~ubuntu1.18.04.4 build-essential=12.4ubuntu1 wget=1.19.4-1ubuntu2.2 python3-dev=3.6.5-3 python3-venv=3.6.5-3 python3-wheel=0.30.0-0.2  libxslt-dev libldap2-dev=2.4.45+dfsg-1ubuntu1.10 libsasl2-dev=2.1.27~101-g0780600+dfsg-3ubuntu2.3 python3-setuptools=39.0.1-2 libpq-dev=10.18-0ubuntu0.18.04.1
+
 sudo apt-get install -y git python3-pip build-essential wget python3-dev python3-venv python3-wheel libxslt-dev libzip-dev libldap2-dev libsasl2-dev python3-setuptools node-less fail2ban
 sudo pip3 install babel decorator Werkzeug docutils XlsxWriter feedparser greenlet html2text Jinja2 lxml MarkupSafe mock num2words ofxparse passlib psutil psycogreen psycopg2 pydot pyparsing PyPDF2 pyserial python-dateutil python-openid pytz pyusb PyYAML qrcode reportlab requests six suds-jurko vatnumber vobject xlwt xlrd ebaysdk gevent Mako Pillow libpq-dev
-#sudo pip3 install -r requirements.txt --upgrade
+
 
 sudo apt-get install -y npm
 sudo ln -s /usr/bin/nodejs /usr/bin/node
@@ -22,29 +17,14 @@ sudo apt-get install -y node-less
 sudo npm install -g rtlcss
 sudo npm install -g less
 cd /opt
-#sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
-#sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
 sudo wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
 sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
 
-#sudo apt-get install -y xfonts-75dpi
-#sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
-#sudo dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb
 sudo apt --fix-broken install -y
 
 cd
 sudo cp /usr/local/bin/wkhtmltoimage /usr/bin/wkhtmltoimage
 sudo cp /usr/local/bin/wkhtmltopdf /usr/bin/wkhtmltopdf
-
-#sudo wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
-#sudo dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
-#sudo apt install -y fontconfig
-#sudo apt install -y xfonts-75dpi
-#sudo apt --fix-broken install -y
-#dpkg -l wkhtmltopdf
-#\q
-#dpkg -l wkhtmltox
-#\q
 
 
 #install postgresql
@@ -53,18 +33,12 @@ curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 sudo apt-get update
 sudo apt-get install -y postgresql-10
-#sudo passwd postgres --delete
-#sudo su - postgres 
-#createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt odoo
-#psql -U postgres -c 'ALTER USER odoo WITH SUPERUSER';
-#\q
+
 sudo su - postgres -c "createuser -s odoo" 2> /dev/null || true
 
 
 #install odoo 11
-#sudo su - odoo -s /bin/bash
 cd 
-#cd /opt/odoo
 cd /opt
 sudo git clone https://www.github.com/odoo/odoo --depth 1 --branch 11.0 --single-branch 
 cd
@@ -95,7 +69,7 @@ sudo pip install phonenumbers
 
 
 cd /opt
-sudo git clone --branch=11.0 https://shahnoor:Yk92hwgayBZk8Hge-Hht@git.bistasolutions.com/bistasolutions/odoo_enterprise.git --single-branch 
+sudo git clone --branch=11.0 <add URL here> --single-branch 
 ls -l
 sudo chown -R odoo: /opt/odoo_enterprise/
 sudo chown -R odoo: /opt/odoo/
@@ -160,8 +134,8 @@ echo "Restoring database from dump"
 #Keep dump file in the aame folder with name as dump.sql
 
 sudo chown odoo: /home/ubuntu/dump.sql
-sudo su - odoo -c 'createdb  calivaengineering-odoo-caliva-98549';
-sudo su - odoo -c 'psql calivaengineering-odoo-caliva-98549 < /home/ubuntu/dump.sql'
+sudo su - odoo -c 'createdb  database-name';
+sudo su - odoo -c 'psql database-name < /home/ubuntu/dump.sql'
 sudo systemctl restart odoo-server
 
 echo "Database restore process completed"
