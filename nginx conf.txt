@@ -12,7 +12,7 @@ upstream odoo {
 ## https site##
 server {
     listen      80;
-    server_name 34.235.164.162;
+    #server_name ;
     root        /usr/share/nginx/html;
     index       index.html index.htm;
 
