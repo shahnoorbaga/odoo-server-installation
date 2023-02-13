@@ -69,6 +69,7 @@ sudo pip install phonenumbers
 
 
 cd /opt
+#add odoo enterprise clone URL below
 sudo git clone --branch=11.0 <add URL here> --single-branch 
 ls -l
 sudo chown -R odoo: /opt/odoo_enterprise/
