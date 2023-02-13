@@ -6,12 +6,14 @@ sudo adduser --system --group odoo
 sudo passwd odoo --delete
 sudo adduser odoo sudo 
 sudo usermod --shell /bin/bash odoo
-sudo apt-get install -y python3-pip 
-sudo apt-get install -y python-dev python3-dev libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev build-essential libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev
-sudo apt-get install -y npm fail2ban
-sudo ln -s /usr/bin/nodejs /usr/bin/node
+#sudo apt-get install -y python3-pip 
+#sudo apt-get install -y python-dev python3-dev libxml2-dev libxslt1-dev zlib1g-dev libsasl2-dev libldap2-dev build-essential libssl-dev libffi-dev libmysqlclient-dev libjpeg-dev libpq-dev libjpeg8-dev liblcms2-dev libblas-dev libatlas-base-dev
+sudo apt-get install -y python3-pip python3-ldap python3-psycopg2 fontconfig libjpeg-turbo8 xfonts-75dpi xfonts-base xfonts-encodings xfonts-utils node-less npm git fail2ban
+#sudo apt-get install -y npm fail2ban
 sudo npm install -g less less-plugin-clean-css
-sudo apt-get install -y node-less
+#sudo ln -s /usr/bin/nodejs /usr/bin/node
+#sudo npm install -g less less-plugin-clean-css
+#sudo apt-get install -y node-less
 cd /opt
 sudo wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
 sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
@@ -20,6 +22,8 @@ sudo dpkg -i wkhtmltox_0.12.6-1.focal_amd64.deb
 #sudo apt install -y fontconfig
 #sudo apt install -y xfonts-75dpi
 sudo apt --fix-broken install -y
+ln -s /usr/local/bin/wkhtmltopdf /usr/bin
+ln -s /usr/local/bin/wkhtmltoimage /usr/bin
 #dpkg -l wkhtmltopdf
 #\q
 #dpkg -l wkhtmltox
@@ -30,7 +34,7 @@ sudo apt-get install curl ca-certificates gnupg
 curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 sudo apt-get update
-sudo apt-get install -y postgresql-12
+sudo apt-get install -y postgresql-11
 #sudo passwd postgres --delete
 #sudo su - postgres 
 #createuser --createdb --username postgres --no-createrole --no-superuser --pwprompt odoo
@@ -44,13 +48,19 @@ sudo su - postgres -c "createuser -s odoo" 2> /dev/null || true
 cd 
 #cd /opt/odoo
 cd /opt
-sudo git clone https://www.github.com/odoo/odoo --depth 1 --branch 13.0 --single-branch 
+sudo git clone https://www.github.com/odoo/odoo --depth 1 --branch 12.0 --single-branch 
 cd
 cd /opt/odoo
 sudo pip3 install -r requirements.txt
+sudo pip3 install pypdf2 passlib werkzeug lxml
+sudo pip install python-dateutil --upgrade
+sudo pip install Pillow
+sudo python3 -m pip uninstall werkzeug
+sudo python3 -m pip install werkzeug==0.16.0
+sudo pip3 install psutil reportlab html2text num2words
 cd
 cd /opt
-sudo git clone --branch=13.0 https://shahnoor:Yk92hwgayBZk8Hge-Hht@git.bistasolutions.com/bistasolutions/odoo_enterprise.git --single-branch 
+sudo git clone --branch=12.0 https://shahnoor:Yk92hwgayBZk8Hge-Hht@git.bistasolutions.com/bistasolutions/odoo_enterprise.git --single-branch 
 ls -l
 sudo chown -R odoo: /opt/odoo_enterprise/
 sudo chown -R odoo: /opt/odoo/
@@ -108,20 +118,6 @@ sudo chown root: /lib/systemd/system/odoo-server.service
 sudo systemctl daemon-reload
 sudo systemctl start odoo-server
 sudo systemctl enable odoo-server
-
-#install nginx
-
-sudo apt update
-sudo apt install nginx -y
-sudo systemctl enable nginx
-sudo systemctl restart nginx
-sudo unlink /etc/nginx/sites-enabled/default
-cd /etc/nginx/sites-available/
-sudo wget https://odoo-nginx.s3.amazonaws.com/odoo-http.conf
-sudo ln -s /etc/nginx/sites-available/odoo-http.conf /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo nginx -s reload
-
 cd
 sudo tail -f /var/log/odoo/odoo.log
 
